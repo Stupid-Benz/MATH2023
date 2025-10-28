@@ -1,8 +1,26 @@
 \documentclass{book}
 
 \usepackage{xcolor} % define colors
+\usepackage{amsthm} % for theorem environments
+\usepackage{amssymb} % for math symbols
+\usepackage{amsmath} % for advanced math typesetting
+\usepackage[margin=1in]{geometry} % set page margins
+\usepackage{tikz, tikz-3dplot} % for 2D and 3D graphics
+\usepackage{hyperref} % for hyperlinks in the document
+\usepackage{subcaption} % for subcaption
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+
 
 \definecolor{ocre}{RGB}{0,83,166}
+
+\newtheorem{example}{Example}[chapter]
+% Non-italic
+\theoremstyle{remark}
+\newtheorem*{solution}{Solution}
+\newtheorem*{remark}{Remark}
 
 \begin{document}
 
@@ -18,7 +36,609 @@
 
 \chapter{Vectors and the Geometry of Space}
 
-\chapter{Vector Functions}
+\section{Three-Dimensional Coordinate Systems}
+
+We would use an ordered tuple of three numbers $(x, y, z)$ to represent a point in three-dimensional space. The three numbers correspond to the distances along the $x$-axis, $y$-axis, and $z$-axis respectively.
+
+Moreover, we can use a vector to represent a point in space. A vector $\mathbf{v}$ can be expressed as:
+\[
+    \mathbf{v} = \langle x, y, z \rangle = x\mathbf{i} + y\mathbf{j} + z\mathbf{k}
+\]
+where $\mathbf{i}$, $\mathbf{j}$, and $\mathbf{k}$ are the unit vectors along the $x$-, $y$-, and $z$-axes respectively.
+
+\begin{remark}
+    Unit vectors are vectors with a magnitude of 1. They are often used to indicate direction.
+\end{remark}
+
+The distance, or norm, of the vector $\mathbf{v}$ from the origin can be calculated using the formula:
+\[
+    \|\mathbf{v}\|_2 = \|\mathbf{v}\| = \sqrt{x^2 + y^2 + z^2}
+\]
+This is also known as the Euclidean norm.
+
+As we are used to consider two-dimensional planes, we always consider the following equations as circles in two-dimensional space:
+\[
+    x^2 + y^2 = r^2
+\]
+However, in three-dimensional space, this equation represents a cylinder extending infinitely along the $z$-axis. As implicitly, the equation does not restrict the value of $z$. Then the set of points satisfying the equation forms a cylinder.
+
+In two-dimensional case, the set of points satisfying the equation $x^2 + y^2 = r^2$ represents a circle of radius $r$ centered at the origin:
+\[
+    S^1 = \{ (x, y) \mid x^2 + y^2 = r^2 \}
+\]
+In three-dimensional case, the set of points satisfying the equation $x^2 + y^2 = r^2$ represents a cylinder of radius $r$ centered along the $z$-axis:
+\[
+    C = \{ (x, y, z) \mid x^2 + y^2 = r^2, z \in \mathbb{R} \}
+\]
+
+So if we want to represent a two-dimensional circle in three-dimensional space, we need to add an additional constraint on $z$. For example, the set of points satisfying the equations $x^2 + y^2 = r^2$ and $z = 0$ represents a circle of radius $r$ in the $xy$-plane:
+\[
+    S^1 = \{ (x, y, z) \mid x^2 + y^2 = r^2, z = 0 \}
+\]
+
+For vector operations, we have:
+\begin{itemize}
+    \item Vector Addition: $\mathbf{a} + \mathbf{b} = \langle a_1 + b_1, a_2 + b_2, a_3 + b_3 \rangle$
+    \item Scalar Multiplication: $c\mathbf{a} = \langle ca_1, ca_2, ca_3 \rangle$
+\end{itemize}
+
+Also, we have the dot product and cross product defined as:
+\begin{itemize}
+    \item Dot Product: $\mathbf{a} \cdot \mathbf{b} = a_1b_1 + a_2b_2 + a_3b_3$
+    \item Cross Product: $\mathbf{a} \times \mathbf{b} = \langle a_2b_3 - a_3b_2, a_3b_1 - a_1b_3, a_1b_2 - a_2b_1 \rangle$
+\end{itemize}
+
+Moreover, the dot product can also be expressed in terms of the magnitudes of the vectors and the angle $\theta$ between them:
+\[
+    \mathbf{a} \cdot \mathbf{b} = \|\mathbf{a}\| \|\mathbf{b}\| \cos\theta
+\]
+and the magnitude of the cross product can be expressed as:
+\[
+    \|\mathbf{a} \times \mathbf{b}\| = \|\mathbf{a}\| \|\mathbf{b}\| \sin\theta
+\]
+It represents the area of the parallelogram formed by the two vectors.
+
+If we want to project vector $\mathbf{b}$ onto vector $\mathbf{a}$, we can use the formula:
+\[
+    \text{proj}_{\mathbf{a}} \mathbf{b} = \left(\frac{\mathbf{a} \cdot \mathbf{b}}{\|\mathbf{a}\|}\right) \frac{\mathbf{a}}{\|\mathbf{a}\|} = \frac{\mathbf{a} \cdot \mathbf{b}}{\|\mathbf{a}\|^2} \mathbf{a}
+\]
+The scalar projection of $\mathbf{b}$ onto $\mathbf{a}$ is given by:
+\[
+    \text{comp}_{\mathbf{a}} \mathbf{b} = \|\mathbf{b}\| \cos\theta = \frac{\mathbf{a} \cdot \mathbf{b}}{\|\mathbf{a}\|}
+\]
+
+For the cross product, we can use the following determinant form:
+\[
+    \mathbf{a} \times \mathbf{b} = \begin{vmatrix}
+    \mathbf{i} & \mathbf{j} & \mathbf{k} \\
+    a_1 & a_2 & a_3 \\
+    b_1 & b_2 & b_3
+    \end{vmatrix}
+\]
+
+\begin{remark}
+    The cross product of two vectors results in a vector that is orthogonal (perpendicular) to both original vectors. The direction of the resulting vector is determined by the right-hand rule.
+\end{remark}
+
+\section{Lines and Planes}
+
+\subsection{Lines}
+
+To represent a line in three-dimensional space, we can use a point and a direction vector. If we have a point $P_0(x_0, y_0, z_0)$ on the line and a direction vector $\mathbf{v} = \langle v_1, v_2, v_3 \rangle$, then any point $P(x, y, z)$ on the line, the vector $\overrightarrow{P_0P}$ is parallel to $\mathbf{v}$, i.e., $\overrightarrow{P_0P} = t\mathbf{v}$ for some scalar $t$. Then we have the parametric equations of the line as:
+\[
+    \langle x, y, z \rangle - \langle x_0, y_0, z_0 \rangle = t \langle v_1, v_2, v_3 \rangle
+\]
+or equivalently,
+\[
+    \begin{cases}
+        x = x_0 + tv_1 \\
+        y = y_0 + tv_2 \\
+        z = z_0 + tv_3
+    \end{cases}
+\]
+which are called the \emph{parametric equations} of the line. The $t$ is called the \emph{parameter} of the line.
+
+To visualize the parametric equation of a line in 3D, consider Figure \ref{fig:3d_line_parametric} below.
+\begin{figure}[h]
+    \centering
+    \tdplotsetmaincoords{75}{135}
+    \begin{tikzpicture}[scale=1.5, tdplot_main_coords, axis/.style={->,black,thick}, vector/.style={-latex,black,very thick}, vector guide/.style={-latex,thick}, vector extension/.style={densely dashed,red,-latex}]
+
+        %standard tikz coordinate definition using x, y, z coords
+        \coordinate (origin) at (0,0,0);
+        \coordinate (a) at (0,1,2);
+        \coordinate (b) at (-3,0,1);
+        %draw axes
+        \draw[axis] (0,0,0) -- (4,0,0) node[anchor=north east]{$x$};
+        \draw[axis] (0,0,0) -- (0,4,0) node[anchor=north west]{$y$};
+        \draw[axis] (0,0,0) -- (0,0,4) node[anchor=south]{$z$};
+
+        % Draw two points
+        \draw[fill=black] (a) circle[radius=1pt] node[anchor=south, yshift=0.5em, xshift=0.5em]{$P_0(x_0, y_0, z_0)$};
+        \draw[fill=black] (b) circle[radius=1pt] node[anchor=south west]{$P(x, y, z)$};
+
+        %draw guide lines to components
+        \draw[vector guide, magenta] (origin) -- (a) node[midway, right, black]{$\mathbf{r}_0$};
+        \draw[vector guide, ocre] (origin) -- (b) node[midway, right, black, xshift=0.5em]{$\mathbf{r}(t) = \mathbf{r}_0 + t\mathbf{v}$};
+
+        % Draw parametric lines
+        \draw ($(a)+2*($(a)-(b)$)$) node[anchor=south west]{$L$} -- (a) -- (b) -- ($(b)+2*($(b)-(a)$)$);
+        \draw[vector guide, orange] (a) -- (b) node[midway, above, black]{$t \mathbf{v}$};
+    \end{tikzpicture}
+    \caption{Parametric Equation of a Line in 3D}\label{fig:3d_line_parametric}
+\end{figure}
+
+From Figure \ref{fig:3d_line_parametric}, we can also write the parametric equations as:
+\[
+    \mathbf{r}(t) = \overrightarrow{OP_0} + t\mathbf{v}
+\]
+which is called the \emph{vector form} of the line.
+
+If $\mathbf{v} = \langle v_1, v_2, v_3 \rangle$ where none of $v_1, v_2, v_3$ is zero, we can also express the line in \emph{symmetric form} as:
+\[
+    \frac{x - x_0}{v_1} = \frac{y - y_0}{v_2} = \frac{z - z_0}{v_3}
+\]
+
+\begin{example}
+    Find the parametric equations of the line that passes through the points $A(1, 2, 3)$ and $B(4, 5, 6)$. Express the line in vector form, parametric form and symmetric forms.
+\end{example}
+\begin{solution}
+    In order to find the equation of the line, we need 
+    \begin{itemize}
+        \item A point on the line: $A(1, 2, 3)$;
+        \item A direction vector: $\mathbf{v} = \overrightarrow{AB} = \langle 4 - 1, 5 - 2, 6 - 3 \rangle = \langle 3, 3, 3 \rangle$.
+    \end{itemize}
+    Therefore, the vector form of the line is:
+    \[
+        \mathbf{r}(t) = \langle 1, 2, 3 \rangle + t \langle 3, 3, 3 \rangle
+    \]
+    The parametric form of the line is:
+    \[
+        \begin{cases}
+            x = 1 + 3t \\
+            y = 2 + 3t \\
+            z = 3 + 3t
+        \end{cases}
+    \]
+    The symmetric form of the line is:
+    \[
+        \frac{x - 1}{3} = \frac{y - 2}{3} = \frac{z - 3}{3}
+    \]
+\end{solution}
+
+\subsection{Planes}
+
+A plane in three-dimensional space can be defined using a point and a normal vector. If we have a point $P_0(x_0, y_0, z_0)$ on the plane and a normal vector $\mathbf{n} = \langle A, B, C \rangle$, then any point $P(x, y, z)$ on the plane satisfies the condition that the vector $\overrightarrow{P_0P}$ is orthogonal to the normal vector $\mathbf{n}$, i.e., $\mathbf{n} \cdot \overrightarrow{P_0P} = 0$. This leads to the equation of the plane:
+\[
+    \langle A, B, C \rangle \cdot (\langle x, y, z \rangle - \langle x_0, y_0, z_0 \rangle) = 0
+\]
+or equivalently,
+\[
+    A(x - x_0) + B(y - y_0) + C(z - z_0) = 0
+\]
+which is called the \emph{scalar equation} of the plane. 
+
+Expanding this, we get:
+\[
+    Ax + By + Cz = Ax_0 + By_0 + Cz_0
+\]
+or equivalently,
+\[
+    Ax + By + Cz + D = 0
+\]
+where $D = -(Ax_0 + By_0 + Cz_0)$ is a constant. It is called a \emph{linear equation} in $x$, $y$ and $z$.
+
+To visualize the equation of a plane in 3D, consider Figure \ref{fig:3d_plane_equation} below.
+\begin{figure}[h]
+    \centering
+    \tdplotsetmaincoords{75}{135}
+    \begin{tikzpicture}[x={(1cm,0.4cm)}, y={(8mm, -3mm)}, z={(0cm,1cm)}, line cap=round, line join=round]
+        %Coordinates
+        %Plane Vertex Points
+        \coordinate (x1) at (-2,2,3);
+        \coordinate (x2) at (2,2,5);
+        \coordinate (x3) at (2,-2,5);
+        \coordinate (x4) at (-2,-2,3);
+        %Vectors Parallel to Plane
+        \coordinate (n1) at ($(x2) - (x1)$);
+        \coordinate (n2) at ($(x2) - (x3)$); 
+        %Points on Plane
+        \coordinate (x5) at ($(x1) + 0.04*(n1) - 0.9*(n2)$);
+        \node[outer sep = 1pt, inner sep = 1pt] (x6) at ($(x1) + 0.7*(n1) - 0.3*(n2)$) {};
+        \coordinate (x7) at ($(x1) + 0.5*(n1) - 0.5*(n2)$);
+        %Beginning of Axis
+        \coordinate (O) at (0,0,0);
+        %Random Point
+        \node[outer sep = 1pt, inner sep = 1pt] (P) at ($(x1) + 0.2*(n1) - 0.4*(n2)$) {};
+        
+        %Axis     
+        \draw[-latex] (-2.5,0,0) -- (2.5,0,0) node[pos = 1.05] {$x$};
+        \draw[-latex] (0,-3.5,0) -- (0,3.5,0) node[pos = 1.05] {$y$};
+        \draw[-latex] (0,0,0) -- (0,0,7) node[pos = 1.05] {$z$};
+        \draw[draw=black, fill=black] (O) circle (1pt) node[below] {${O}$};
+        
+        %Point on Plane
+        \draw[-latex, thick] (O) -- (x6) node[pos=0.45, shift={(0.1,0.3)}] {$\mathbf{r}_0$};
+        \draw[-latex, thick] (O) -- (P) node[pos=0.45, shift={(-0.1,-0.3)}] {$\mathbf{r}$};
+        %Plane
+        \path[draw=black, fill=black!20, thick, opacity = 0.8] (x1) -- (x2) -- (x3) -- (x4) -- (x1);
+        \node[shift={(-0.45,0.6)}] at (x3) {$\Pi$};
+        %Perpendicular Vector
+        \coordinate (direction_vec) at ($(-8,0,24) - (x5)$);
+
+        % Perpendicular Vector at x5
+        \draw[-latex, thick] (x5) -- ($(x5) + 0.07*(direction_vec)$) node[pos=0.5, shift={(-0.2,-0.1)}] {$\mathbf{n}$};
+        
+        % Parallel Vector at x6
+        % Now add the scaled vector to x6
+        \draw[-latex, thick] (x6) -- ($(x6) + 0.07*(direction_vec)$) node[pos=0.5, shift={(0.2,0.1)}] {$\mathbf{n}$};
+        
+        %Point on Plane    
+        \draw[draw=black, fill=black] (x6) circle (1pt) node[above right] {${P}_0$};
+        
+        %Z-axis Section
+        \draw[draw=black, fill=black] (x7) circle (0.5pt);
+        \draw (x7) -- (0,0,6.5);
+        
+        %Random Point
+        \draw[draw=black, fill=black] (P) circle (1pt) node[above left] {$P$};
+        \draw[-latex, thick, ocre] (x6) -- (P) node[pos=0.2, above left] {$\overrightarrow{P_0P}$};
+    \end{tikzpicture}
+    \caption{Equation of a Plane in 3D}\label{fig:3d_plane_equation}
+\end{figure}
+
+In order to find $\mathbf{n}$, we can use the cross product.
+\begin{example}
+    Find the equation of the plane that passes through the points:
+    \[
+        A(1, 2, 3), \quad B(4, 5, 6), \quad C(7, 8, 0).
+    \]
+\end{example}
+\begin{solution}
+    In order to find the equation of the plane, we need
+    \begin{itemize}
+        \item A point on the plane: $A(1, 2, 3)$;
+        \item A normal vector: $\mathbf{n} = \overrightarrow{AB} \times \overrightarrow{AC}$.
+    \end{itemize}
+    First, we calculate the vectors $\overrightarrow{AB}$ and $\overrightarrow{AC}$:
+    \[
+        \begin{split}
+            \overrightarrow{AB} &= \langle 4 - 1, 5 - 2, 6 - 3 \rangle = \langle 3, 3, 3 \rangle, \\
+            \overrightarrow{AC} &= \langle 7 - 1, 8 - 2, 0 - 3 \rangle = \langle 6, 6, -3 \rangle.
+        \end{split}
+    \]
+    Taking the cross product, we have:
+    \[
+        \overrightarrow{AB} \times \overrightarrow{AC} = \begin{vmatrix}
+        \mathbf{i} & \mathbf{j} & \mathbf{k} \\
+        3 & 3 & 3 \\
+        6 & 6 & -3
+        \end{vmatrix} = \langle 0, 0, -9 \rangle.
+    \]
+    For simplicity, we can take the normal vector as $\mathbf{n} = \langle 0, 0, 1 \rangle$. Therefore, the equation of the plane is:
+    \[
+        \begin{split}
+            0(x - 1) + 0(y - 2) + 1(z - 3) &= 0 \\
+            z - 3 &= 0 \\
+            z &= 3.
+        \end{split}
+    \]
+\end{solution}
+
+If we have a point $P_1(x_1, y_1, z_1)$ not on the plane, we can calculate the distance from the point to the plane using the formula:
+\[
+    \text{Distance} = \frac{\| \mathbf{n} \cdot \mathbf{b} \|}{\| \mathbf{n} \|} = \frac{A(x_1 - x_0) + B(y_1 - y_0) + C(z_1 - z_0)}{\sqrt{A^2 + B^2 + C^2}} = \frac{|A x_1 + B y_1 + C z_1 + D|}{\sqrt{A^2 + B^2 + C^2}}
+\]
+where $\mathbf{b} = \overrightarrow{P_0P_1} = \langle x_1 - x_0, y_1 - y_0, z_1 - z_0 \rangle$.
+
+\section{Cylinders and Quadric Surfaces}
+
+\subsection{Cylinders}
+
+A cylinder is a surface that consists of all lines that are parallel to a given line and pass through a given curve. The given line is called the \emph{generatrix} of the cylinder, and the given curve is called the \emph{directrix} of the cylinder.
+
+\begin{example}
+    Sketch the graph of the surface defined by the equation:
+    \[
+        z = x^2
+    \]
+\end{example}
+\begin{solution}
+    This equation represents a parabolic cylinder. For any fixed value of $y$, the cross-section in the $xz$-plane is a parabola defined by $z = x^2$. The surface extends infinitely along the $y$-axis, forming a cylinder-like shape. Consider the Figure \ref{fig:parabolic_cylinder} below, which illustrates the parabolic cylinder defined by the equation $z = x^2$. If we take cross-sections at different values of $y$, we obtain parabolas that open upwards in the $xz$-plane.
+\end{solution}
+
+\begin{figure}[h]
+    \centering
+    \tdplotsetmaincoords{70}{120}
+	\begin{tikzpicture}[tdplot_main_coords]
+		%%% Coordinate axis
+		\draw[thick,-latex] (0,0,0) -- (2.5,0,0) node [below left] {\footnotesize$x$};
+		\draw[dashed] (0,0,0) -- (-2.5,0,0);
+		\draw[thick,-latex] (0,0,0) -- (0,4.5,0) node [right] {\footnotesize$y$};
+		\draw[dashed] (0,0,0) -- (0,-2.5,0);
+		\draw[thick] (0,0,0.0) -- (0,0,4.0);
+		% The curves slicing the surface
+		\draw[ocre,thick] plot[domain=-1.75:1.75,smooth,variable=\t] ({\t},{-2.0},{\t*\t});
+		\draw[ocre,thick] plot[domain=-1.75:1.75,smooth,variable=\t] ({\t},{4.0},{\t*\t}); 
+        \draw[ocre,thick] plot[domain=-1.75:1.75,smooth,variable=\t] ({\t},{0.0},{\t*\t});
+		% The surface
+		\foreach \y in {-1.99,-1.98,...,-0.01,0.01,0.02,...,3.99}{
+			\draw[black!10,thick,opacity=0.2] plot[domain=-1.75:1.75,smooth,variable=\t] ({\t},{\y},{\t*\t}); 
+		}
+		%
+		\node[above right] at (0,2.5,4.125) {$z = x^2$};
+		% Last part of the z axis
+		\draw[thick,-latex] (0,0,4.0) -- (0,0,4.5) node [above] {\footnotesize$z$};	
+	\end{tikzpicture}
+    \caption{Parabolic Cylinder of $z = x^2$}\label{fig:parabolic_cylinder}
+\end{figure}
+
+\begin{example}
+    Sketch the graph of the surface defined by the equation:
+    \[
+        x^2 + y^2 = 1
+    \]
+\end{example}
+\begin{solution}
+    This equation represents a circular cylinder. For any fixed value of $z$, the cross-section in the $xy$-plane is a circle defined by $x^2 + y^2 = 1$. The surface extends infinitely along the $z$-axis, forming a cylinder-like shape. Consider the Figure \ref{fig:circular_cylinder} below, which illustrates the circular cylinder defined by the equation $x^2 + y^2 = 1$. If we take cross-sections at different values of $z$, we obtain circles in the $xy$-plane.
+\end{solution}
+
+\begin{figure}[h]
+    \centering
+    \tdplotsetmaincoords{70}{120}
+    \begin{tikzpicture}[tdplot_main_coords]
+		%%% Coordinate axis
+		\draw[thick,-latex] (0,0,0) -- (2.5,0,0) node [below left] {\footnotesize$x$};
+		\draw[dashed] (0,0,0) -- (-2.5,0,0);
+		\draw[thick,-latex] (0,0,0) -- (0,2.5,0) node [right] {\footnotesize$y$};
+		\draw[dashed] (0,0,0) -- (0,-2.5,0);
+		\draw[thick] (0,0,0.0) -- (0,0,4.0);
+		% The curves slicing the surface
+		\draw[ocre,thick,opacity=0.5] (0,0,0) circle (1.0); 
+		% The surface
+		\foreach \z in {0.01,0.02,...,3.99}{
+			\draw[black!10,thick,opacity=0.2] (0,0,\z) circle (1.0); 
+		}
+		% The curves slicing the surface
+		\draw[ocre,thick,opacity=0.5] (0,0,4) circle (1.0);
+		%
+
+		\node[right] at (0,1,4) {$x^2 + y^2 = 1$};
+		% Last part of the z axis
+		\draw[thick,-latex] (0,0,4.0) -- (0,0,4.5) node [above] {\footnotesize$z$};	
+    \end{tikzpicture}
+    \caption{Circular Cylinder of $x^2 + y^2 = 1$}\label{fig:circular_cylinder}
+\end{figure}
+
+\subsection{Quadric Surfaces}
+A quadric surface is a surface in three-dimensional space defined by a second-degree polynomial equation in three variables $x$, $y$, and $z$. The general form of a quadric surface equation is:
+\[
+    Ax^2 + By^2 + Cz^2 + Dxy + Eyz + Fxz + Gx + Hy + Iz + J = 0.
+\]
+By simple translation or rotations, it can be brought into one of the following forms:
+\[
+    Ax^2 + By^2 + Cz^2 + J = 0, \quad Ax^2 + By^2 + Iz = 0
+\]
+
+There are 6 kinds of quadric surfaces, as shown below:
+\begin{figure}[h]
+
+\centering
+
+\begin{subfigure}{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}
+    [view={135}{20},colormap={ocre}{
+                color=(ocre) color=(ocre)
+            },
+    axis lines=center,axis on top,
+    ticks=none,set layers=default,axis equal,
+    xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+    xlabel style={anchor=east},
+    ylabel style={anchor=west},
+    zlabel style={anchor=south},
+    enlargelimits,
+    tick align=inside,
+    domain=0:2.00,
+    samples=20, 
+    z buffer=sort,
+    ]
+    \addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=-1:1, domain y=0:180, on layer=axis foreground] ({x}, {-2*cos(y)*sqrt(1-x^2)}, {-sin(y)*sqrt(1-x^2)});
+    \addplot3 [surf,draw=ocre!30,fill=white,domain=-1:1,samples=20, domain y=0:180,on layer=axis foreground] ({x},{2*cos(y)*sqrt(1-x^2)},{sin(y)*sqrt(1-x^2)});
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Ellipsoid}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}
+    [view={135}{20},colormap={ocre}{
+                color=(ocre) color=(ocre)
+            },
+    axis lines=center,axis on top,
+    ticks=none,set layers=default,axis equal,
+    xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+    xlabel style={anchor=east},
+    ylabel style={anchor=west},
+    zlabel style={anchor=south},
+    enlargelimits,
+    tick align=inside,
+    domain=0:2.00,
+    samples=20, 
+    z buffer=sort,
+    ]
+    \addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=0:1, domain y=-180:180,on layer=axis foreground] ({-2*sqrt(x)*cos(y)},{-sqrt(x)*sin(y)},{x});
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Elliptic Paraboloid}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}
+    [view={135}{20},colormap={ocre}{
+                color=(ocre) color=(ocre)
+            },
+    axis lines=center,axis on top,
+    ticks=none,set layers=default,axis equal,
+    xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+    xlabel style={anchor=east},
+    ylabel style={anchor=west},
+    zlabel style={anchor=south},
+    enlargelimits,
+    tick align=inside,
+    domain=0:2.00,
+    samples=20, 
+    z buffer=sort,
+    ]
+    \addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=-0.5:0.5, domain y=-0.5:0.5, on layer=axis foreground] {x^2 - 4*y^2};
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Hyperbolic Paraboloid}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}
+    [view={135}{20},colormap={ocre}{
+                color=(ocre) color=(ocre)
+            },
+    axis lines=center,axis on top,
+    ticks=none,set layers=default,axis equal,
+    xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+    xlabel style={anchor=east},
+    ylabel style={anchor=west},
+    zlabel style={anchor=south},
+    enlargelimits,
+    tick align=inside,
+    domain=0:2.00,
+    samples=20, 
+    z buffer=sort,
+    ]
+    \addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=-1:1, domain y=-180:180,on layer=axis foreground] ({-2*(x)*cos(y)},{-(x)*sin(y)},{x});
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Cone}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}
+    [view={135}{20},colormap={ocre}{
+                color=(ocre) color=(ocre)
+            },
+    axis lines=center,axis on top,
+    ticks=none,set layers=default,axis equal,
+    xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+    xlabel style={anchor=east},
+    ylabel style={anchor=west},
+    zlabel style={anchor=south},
+    enlargelimits,
+    tick align=inside,
+    domain=0:2.00,
+    samples=20, 
+    z buffer=sort,
+    ]
+    \addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=-1:1, domain y=-180:180,on layer=axis foreground] ({2*sqrt(1+x^2)*cos(y)},{sqrt(1+x^2)*sin(y)},{x});
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Hyperboloid of One Sheet}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}
+    [view={135}{20},colormap={ocre}{
+                color=(ocre) color=(ocre)
+            },
+    axis lines=center,axis on top,
+    ticks=none,set layers=default,axis equal,
+    xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+    xlabel style={anchor=east},
+    ylabel style={anchor=west},
+    zlabel style={anchor=south},
+    enlargelimits,
+    tick align=inside,
+    domain=0:2.00,
+    samples=20, 
+    z buffer=sort,
+    ]
+    \addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=1:2, domain y=-180:180,on layer=axis foreground] ({2*sqrt(x^2 - 1)*cos(y)},{sqrt(x^2 - 1)*sin(y)},{x});
+    \addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=-2:-1, domain y=-180:180,on layer=axis foreground] ({2*sqrt(x^2 - 1)*cos(y)},{sqrt(x^2 - 1)*sin(y)},{x});
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Hyperboloid of Two Sheets}
+\end{subfigure}
+
+\end{figure}
+
+\section{Vector Functions}
+
+A vector function is a function that takes one or more variables and returns a vector. In three-dimensional space, a vector function can be represented as:
+\[
+    \mathbf{r}(t) = \langle x(t), y(t), z(t) \rangle
+\]
+
+The limit of the vector function $\mathbf{r}(t)$ as $t$ approaches $t_0$ is defined as:
+\[
+    \lim_{t \to t_0} \mathbf{r}(t) = \left\langle \lim_{t \to t_0} x(t), \lim_{t \to t_0} y(t), \lim_{t \to t_0} z(t) \right\rangle
+\]
+
+The derivatives of the vector function $\mathbf{r}(t)$ is defined as:
+\[
+    \dfrac{d\mathbf{r}}{dt} = \mathbf{r}'(t) = \lim_{h \to 0} \frac{\mathbf{r}(t + h) - \mathbf{r}(t)}{h} = \langle x'(t), y'(t), z'(t) \rangle
+\]
+There are some properties for derivatives of vector functions:
+\begin{itemize}
+    \item $\dfrac{d}{dt} [\mathbf{u}(t) + \mathbf{v}(t)] = \mathbf{u}'(t) + \mathbf{v}'(t)$
+    \item $\dfrac{d}{dt} [c\mathbf{u}(t)] = c\mathbf{u}'(t)$
+    \item $\dfrac{d}{dt} [f(t) \mathbf{u}(t)] = f'(t) \mathbf{u}(t) + f(t) \mathbf{u}'(t)$
+    \item $\dfrac{d}{dt} [\mathbf{u}(t) \cdot \mathbf{v}(t)] = \mathbf{u}'(t) \cdot \mathbf{v}(t) + \mathbf{u}(t) \cdot \mathbf{v}'(t)$
+    \item $\dfrac{d}{dt} [\mathbf{u}(t) \times \mathbf{v}(t)] = \mathbf{u}'(t) \times \mathbf{v}(t) + \mathbf{u}(t) \times \mathbf{v}'(t)$
+    \item $\dfrac{d}{dt} [\mathbf{u}(f(t))] = f'(t) \mathbf{u}'(f(t))$
+\end{itemize}
+
+The definite integral of vector functions $\mathbf{r}(t)$ from $a$ to $b$ is defined as:
+\[
+    \int_a^b \mathbf{r}(t) dt = \left\langle \int_a^b x(t) dt, \int_a^b y(t) dt, \int_a^b z(t) dt \right\rangle
+\]
+
+Arc length:
+\[
+    L = \int_a^b \| \mathbf{r}'(t) \| dt = \int_a^b \sqrt{(x'(t))^2 + (y'(t))^2 + (z'(t))^2} dt
+\]
+
+Arc length parametrisation:
+
+Given a curve $\mathbf{r}(t)$, compute the integral:
+\[
+    s = s(t) = \int_a^t \| \mathbf{r}'(\tau) \| d\tau
+\]
+Then express $t$ as a function of $s$, i.e., $t = t(s)$. Finally replace all $t$ in $\mathbf{r}(t)$ as $\mathbf{r}(t(s))$, a function in terms of $s$.
+
+\begin{example}
+    Find the arc-length parametrisation of the curve:
+    \[
+        \mathbf{r}(t) = \langle \cos t, \sin t, t \rangle, \qquad t \in [0, 2\pi].
+    \]
+\end{example}
+\begin{solution}
+    We have:
+    \[
+        \| \mathbf{r}'(t) \| = \sqrt{(-\sin t)^2 + (\cos t)^2 + 1^2} = \sqrt{2}.
+    \]
+    So,
+    \[
+        s = \int_0^t \sqrt{2} d\tau = \sqrt{2} t.
+    \]
+    Express $t$ in terms of $s$, we get $t = \frac{s}{\sqrt{2}}$. Replace all $t$'s in $\mathbf{r}(t)$, we have the arc-length parametrisation:
+    \[
+        \tilde{\mathbf{r}}(s) = \left\langle \cos\left(\frac{s}{\sqrt{2}}\right), \sin\left(\frac{s}{\sqrt{2}}\right), \frac{s}{\sqrt{2}} \right\rangle, \qquad s \in [0, 2\pi\sqrt{2}].
+    \]
+\end{solution}
+
 
 \chapter{Partial Derivatives}
 
