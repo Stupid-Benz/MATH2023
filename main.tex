@@ -6,7 +6,7 @@
 \usepackage{amsmath} % for advanced math typesetting
 \usepackage[margin=1in]{geometry} % set page margins
 \usepackage{tikz, tikz-3dplot} % for 2D and 3D graphics
-\usepackage{hyperref} % for hyperlinks in the document
+\usepackage[pdfborder={0 0 0}]{hyperref} % for hyperlinks in the document %removed the red box around links
 \usepackage{subcaption} % for subcaption
 
 
@@ -21,6 +21,14 @@
 \theoremstyle{remark}
 \newtheorem*{solution}{Solution}
 \newtheorem*{remark}{Remark}
+
+%Added some common sets
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
 
 \begin{document}
 
@@ -642,7 +650,68 @@ Then express $t$ as a function of $s$, i.e., $t = t(s)$. Finally replace all $t$
 
 \chapter{Partial Derivatives}
 
+
 \chapter{Multiple Integrals}
+\section{Partial Integration}
+    We have learnt how to calculate the integration of a function in single variable. Now, we extends our knowledge to functions in several variables. One should understand that the partial integration is the reverse process of partial differentiation.
+    \\\indent Define a function $f(x,y):\R^2\to\R$, we have 
+    \[\int f dx \quad \text{and}\quad \int f dy\]
+    Note that the above integrals are not the same as the single variable integration since $f$ is a function of two variables. The above integrals are called \textbf{partial integrals}. In general, we have 
+    \\Given a function $f:\R^n \to \R$
+    \[\int f dx_1,\quad \int f dx_2,\quad \dots ,\quad \int f dx_n\]
+    where $x_1,x_2,\ldots,x_n$ are the variables of integration.
+    \begin{example}
+        Given a function $f(x,y)=x^2y+3xy^2$, find $\int f dx$ and $\int f dy$.
+        \begin{solution}
+            Notice that when we integrate with respect to $x$, we treat $y$ as a constant. So as the other way around. Thus, 
+            \[
+            \begin{split}
+                \int x^2y+3xy^2 dx&= \frac{y}{3}x^3+\frac{3y^2}{2}x^2 +C(y)\\
+                \int x^2y+3xy^2 dy&= \frac{x^2}{2}y^2+xy^3 +C(x)
+            \end{split}
+            \]
+        \end{solution}
+        The integration constants $C(y)$ and $C(x)$ in this case are functions in $x$ and $y$ rather than just a constant number.
+    \end{example}
+
+    \begin{example}
+        Given $f(x,y)=ye^{xy^2}$, find $\int f dx$ and $\int f dy$.
+        \begin{solution}
+            \[
+            \begin{split}
+                \int ye^{xy^2} dx&= \frac{e^{xy^2}}{y}+C(y)\\
+                \int ye^{xy^2} dy&= \frac{1}{2x}e^{xy^2}+C(x)
+            \end{split}
+            \]
+            We can substitute $u=xy^2$, then $du=y^2dx$ and $du=2xy dy$ to compute the integrals.
+        \end{solution}
+    \end{example}
+
+    \section{Definite integration}
+    The concept here is similar to the single variable definite integration. We define the definite partial integral of $f(x,y)$ with respect to $x$ from $a$ to $b$ as
+    \[\int_a^b f(x,y) dx =\int_{x=a}^{x=b} f(x,y) dx= F(b,y)-F(a,y)\]
+    Similarly, we may define the definite partial integral of $f(x,y)$ with respect to $y$ from $c$ to $d$ as
+    \[\int_c^d f(x,y) dy =\int_{y=c}^{y=d} f(x,y) dy= G(x,d)-G(x,c)\]
+    Note that $y$ and $x$ are treated as constants in the above two definitions respectively.
+
+    \begin{example}
+        Given $f(x,y)=x^2y+3xy^2$, find $\int_1^3 f(x,y) dx$ and $\int_1^3 f(x,y) dy$.
+        \begin{solution}
+            \[
+            \begin{split}
+                \int_1^3 (x^2y+3xy^2) dx&= \left[\frac{y}{3}x^3+\frac{3y^2}{2}x^2\right]_{x=1}^{x=3}= \frac{26}{3}y + 12y^2\\
+                \int_1^3 (x^2y+3xy^2) dy&= \left[\frac{x^2}{2}y^2+xy^3\right]_{y=1}^{y=3}= 4x^2 + 26x
+            \end{split}
+            \]
+        \end{solution}
+    \end{example}
+
+    \section{Double Integrals}
+    A double integral is an extension of the single variable definite integral to functions of two variables. It is used to calculate the volume under a surface defined by a function $f(x,y)$ over a rectangular region in the $xy$-plane. The double integral of $f(x,y)$ over the rectangular region $R = [a,b] \times [c,d]$ is denoted as:
+    \[\iint_R f(x,y) dA = \int_a^b \int_c^d f(x,y) dy dx\]
+    where $dA$ represents a small area element on the $xy$-plane.
+
+
 
 \chapter{Vector Calculus}
 
