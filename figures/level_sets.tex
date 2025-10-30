@@ -1,0 +1,27 @@
+\documentclass{standalone}
+
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.18}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    domain = -3:3,
+    y domain = -3:3,
+    view = {0}{90},
+    axis equal image,
+    ]
+
+    \addplot3[
+        contour gnuplot={levels={0,2,4,6,8,10,12,14,16,18}, labels=true, draw=black}, 
+            thick,
+            samples=40,
+        ]
+        {x^2 + y^2};
+
+\end{axis}  
+\end{tikzpicture}
+\end{document}

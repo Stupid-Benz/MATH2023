@@ -1,0 +1,32 @@
+\documentclass{standalone}
+
+\usepackage{tikz, pgfplots} % for 2D and 3D graphics
+\pgfplotsset{compat=1.15}
+
+\definecolor{ocre}{RGB}{0,83,166}
+
+\begin{document}
+
+\begin{tikzpicture}
+\begin{axis}
+[view={135}{20},colormap={ocre}{
+            color=(ocre) color=(ocre)
+        },
+axis lines=center,axis on top,
+ticks=none,set layers=default,axis equal,
+xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+xlabel style={anchor=east},
+ylabel style={anchor=west},
+zlabel style={anchor=south},
+enlargelimits,
+tick align=inside,
+domain=0:2.00,
+samples=20, 
+z buffer=sort,
+]
+\addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=1:2, domain y=-180:180,on layer=axis foreground] ({2*sqrt(x^2 - 1)*cos(y)},{sqrt(x^2 - 1)*sin(y)},{x});
+\addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=-2:-1, domain y=-180:180,on layer=axis foreground] ({2*sqrt(x^2 - 1)*cos(y)},{sqrt(x^2 - 1)*sin(y)},{x});
+\end{axis}
+\end{tikzpicture}
+
+\end{document}
