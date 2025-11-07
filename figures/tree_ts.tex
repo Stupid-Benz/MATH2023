@@ -1,0 +1,16 @@
+\documentclass{standalone}
+
+\usepackage{tikz, tikz-cd}
+\usepackage{amsmath}
+
+\definecolor{ocre}{RGB}{0,83,166}
+
+\begin{document}
+
+\begin{tikzcd}[row sep=huge, column sep=scriptsize]
+    & & w \\
+    x \arrow[rru, red] & & y \arrow[u, ocre] & & z \arrow[llu, teal] \\
+    & t \arrow[ul, red] \arrow[ur, ocre] \arrow[urrr, teal] & & s \arrow[ulll, red, crossing over] \arrow[ul, ocre, crossing over] \arrow[ur, teal]
+\end{tikzcd}
+
+\end{document}

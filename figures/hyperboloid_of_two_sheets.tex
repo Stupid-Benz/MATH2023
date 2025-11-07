@@ -24,8 +24,12 @@ domain=0:2.00,
 samples=20, 
 z buffer=sort,
 ]
-\addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=1:2, domain y=-180:180,on layer=axis foreground] ({2*sqrt(x^2 - 1)*cos(y)},{sqrt(x^2 - 1)*sin(y)},{x});
-\addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=-2:-1, domain y=-180:180,on layer=axis foreground] ({2*sqrt(x^2 - 1)*cos(y)},{sqrt(x^2 - 1)*sin(y)},{x});
+\addplot3 [surf,draw=ocre!30,fill=white,samples=12, domain=1:2, domain y=0:180,on layer=axis foreground] ({2*sqrt(x^2 - 1)*cos(y)},{sqrt(x^2 - 1)*sin(y)},{x});
+\addplot3 [surf,draw=ocre!30,fill=white,samples=12, domain=1:2, domain y=-180:01] ({2*sqrt(x^2 - 1)*cos(y)},{sqrt(x^2 - 1)*sin(y)},{x});
+
+
+\addplot3 [surf,draw=ocre!30,fill=white,samples=12, domain=-2:-1, domain y=0:180,on layer=axis foreground] ({2*sqrt(x^2 - 1)*cos(y)},{sqrt(x^2 - 1)*sin(y)},{x});
+\addplot3 [surf,draw=ocre!30,fill=white,samples=12, domain=-2:-1, domain y=-180:0] ({2*sqrt(x^2 - 1)*cos(y)},{sqrt(x^2 - 1)*sin(y)},{x});
 \end{axis}
 \end{tikzpicture}
 

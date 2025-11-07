@@ -24,7 +24,11 @@ domain=0:2.00,
 samples=20, 
 z buffer=sort,
 ]
-\addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=-1:1, domain y=-180:180,on layer=axis foreground] ({-2*(x)*cos(y)},{-(x)*sin(y)},{x});
+\addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=0:1, domain y=0:180] ({-2*(x)*cos(y)},{-(x)*sin(y)},{x});
+\addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=0:1, domain y=-180:0, on layer=axis foreground] ({-2*(x)*cos(y)},{-(x)*sin(y)},{x});
+
+\addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=-1:0, domain y=0:180, on layer=axis foreground] ({-2*(x)*cos(y)},{-(x)*sin(y)},{x});
+\addplot3 [surf,draw=ocre!30,fill=white,samples=20, domain=-1:0, domain y=-180:0] ({-2*(x)*cos(y)},{-(x)*sin(y)},{x});
 \end{axis}
 \end{tikzpicture}
 
