@@ -22,7 +22,7 @@
 \newtheorem{definition}{Definition}[chapter]
 % Non-italic
 \theoremstyle{remark}
-\newtheorem*{solution}{Solution}
+\newenvironment{solution}{\begin{proof}[Solution]}{\end{proof}}
 \newtheorem*{remark}{Remark}
 
 %Added some common sets
@@ -182,16 +182,75 @@ If $\mathbf{v} = \langle v_1, v_2, v_3 \rangle$ where none of $v_1, v_2, v_3$ is
     \]
     The parametric form of the line is:
     \[
-        \begin{cases}
-            x = 1 + 3t \\
-            y = 2 + 3t \\
-            z = 3 + 3t
-        \end{cases}
+        x = 1 + 3t, \quad y = 2 + 3t, \quad z = 3 + 3t.
     \]
     The symmetric form of the line is:
     \[
         \frac{x - 1}{3} = \frac{y - 2}{3} = \frac{z - 3}{3}
     \]
+\end{solution}
+
+\begin{example}
+    Find the parametric equations for the line passes through the point $P(0, 1, 2)$ that is perpendicular to and intersects the line 
+    \[
+        x = 1 + t, \quad y = 1 - t, \quad z = 2t.
+    \]
+\end{example}
+\begin{solution}
+    We can assume the point of intersection is $Q(1 + t_0, 1 - t_0, 2t_0)$. The vector $\overrightarrow{PQ}$ is perpendicular to the direction vector of the given line $\mathbf{v} = \langle 1, -1, 2 \rangle$. Therefore, we have:
+    \[
+        \begin{split}
+            \overrightarrow{PQ} \cdot \mathbf{v} &= 0 \\
+            \langle (1 + t_0) - 0, (1 - t_0) - 1, 2t_0 - 2 \rangle \cdot \langle 1, -1, 2 \rangle &= 0 \\
+            t_0 &= \frac{1}{2}.
+        \end{split}
+    \]
+    So the direction vector of the line we want is:
+    \[
+        \overrightarrow{PQ} = \left\langle 1 + \frac{1}{2}, 1 - \frac{1}{2} - 1, 2 \cdot \frac{1}{2} - 2 \right\rangle = \left\langle \frac{3}{2}, -\frac{1}{2}, -1 \right\rangle.
+    \]
+    Then we take the direction vector as $\langle 3, -1, -2 \rangle$. Therefore, the parametric equations of the line is:
+    \[
+        x = 3t, \quad y = 1 - t, \quad z = 2 - 2t.
+    \]
+\end{solution}
+
+There are 4 types of lines in 3D space:
+\begin{itemize}
+    \item Intersecting Lines: Two lines that intersect at a single point.
+    \item Parallel Lines: Two lines that never intersect and are always the same distance apart.
+    \item Skew Lines: Two lines that do not intersect and are not parallel. They exist in different planes.
+    \item Coincident Lines: Two lines that lie on top of each other, meaning they have all points in common.
+\end{itemize}
+
+\begin{example}
+    Find the distance from the point $P_0$ to the straight line $L$ that passes through the point $P_1$ with the non-zero direction vector $\mathbf{v}$.
+\end{example}
+\begin{solution}
+    Let $\mathbf{r_0}$ and $\mathbf{r_1}$ be the position vectors of the points $P_0$ and $P_1$ respectively. Let the point $P_2$ on the line $L$ such that $\overrightarrow{P_0P_2}$ is perpendicular to the direction vector $\mathbf{v}$. Then the distance from the point $P_0$ to the line $L$ is given by the length of the vector $\overrightarrow{P_0P_2}$. We have:
+    \[
+        \text{Distance} = \| \overrightarrow{P_0P_2} \| = \| \overrightarrow{P_0P_1} \| \sin{\theta}
+    \]
+    where $\theta$ is the angle between the vectors $\overrightarrow{P_0P_1}$ and $\mathbf{v}$. Using the definition of the cross product, we have:
+    \[
+        \| \overrightarrow{P_0P_1} \times \mathbf{v} \| = \| \overrightarrow{P_0P_1} \| \| \mathbf{v} \| \sin{\theta}.
+    \]
+    Hence, the distance from the point $P_0$ to the line $L$ is given by:
+    \[
+        \text{Distance} = \frac{\| \overrightarrow{P_0P_1} \times \mathbf{v} \|}{\| \mathbf{v} \|} = \frac{\| (\mathbf{r_1} - \mathbf{r_0}) \times \mathbf{v} \|}{\| \mathbf{v} \|}.
+    \]
+\end{solution}
+
+\begin{example}
+    Find the distance between the two lines $L_1$ through point $P_1$ parallel to direction vector $\mathbf{v_1}$ and $L_2$ through point $P_2$ parallel to direction vector $\mathbf{v_2}$.
+\end{example}
+\begin{figure}[ht]
+    \centering
+    \includegraphics{figures/skew_lines.pdf}
+    \caption{Skew Lines in 3D Space}\label{fig:skew_lines}
+\end{figure}
+\begin{solution}
+    Consider Figure \ref{fig:skew_lines}. Let $\mathbf{r_1}$ and $\mathbf{r_2}$ be the position vectors of the points $P_1$ and $P_2$ respectively. Let $\mathbf{n} = \mathbf{v_1} \times \mathbf{v_2}$ be a vector orthogonal to both direction vectors $\mathbf{v_1}$ and $\mathbf{v_2}$, i.e., parallel to the orange line in the figure. Then the distance between the two lines $L_1$ and $L_2$ is given by the length of the projection of the vector $\overrightarrow{P_1P_2}$ onto the vector $\mathbf{n}$. We have:
 \end{solution}
 
 \subsection{Planes}

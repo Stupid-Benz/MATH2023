@@ -1,0 +1,40 @@
+\documentclass[border=10pt]{standalone}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usepackage{amsmath}
+\usetikzlibrary{calc}
+
+\definecolor{ocre}{RGB}{0,83,166}
+
+\begin{document}
+
+% Set the viewing angles: theta=80 (from vertical), phi=100 (azimuth)
+\tdplotsetmaincoords{75}{-20} 
+
+\begin{tikzpicture}[tdplot_main_coords, scale=1.5]
+
+    % Draw axes
+    \draw[dashed] (0,0,-1) -- (0,0,0);
+
+    \draw[red, thick, dashed] (0,0,0) -- (4,4,-2) node[anchor=north west] {$L_1$};
+
+    \draw[gray!20, fill=gray!20, opacity=0.5] 
+        (-3,-3,0) -- (-3,3,0) -- (3,3,0) -- (3,-3,0) -- cycle; % xy-plane
+    \draw[->] (-3,0,0) -- (3,0,0) node[anchor=west]{$x$};
+    \draw[->] (0,-3,0) -- (0,3,0) node[anchor=south east]{$y$};
+    \draw[->] (0,0,0) -- (0,0,3) node[anchor=south]{$z$};
+
+    \draw[thick, black] (0,0,0.9) -- (0.066,-0.066,0.866) -- (0.066, -0.066, 0.966); % small square at (0,0,1)
+    \draw[thick, black] (0,0,0.1) -- (-0.133,-0.133,0.166) -- (-0.133,-0.133,0.066);
+
+    \draw[ocre, thick] (-2,2,2) node[anchor=east] {$L_2$} -- (2,-2,0);
+    \draw[red, thick] (-4,-4,2) -- (0,0,0);
+    \draw[orange, thick] (0,0,0) -- (0,0,1);
+
+    \draw[-latex, thick, teal] (-3,-3,1.5) -- (-1.5,-1.5,0.75) node[midway, above] {$\scriptstyle \mathbf{v_1}$};
+    \draw[teal,fill=teal] (-3,-3,1.5) circle (1pt) node[below] {$\scriptstyle P_1$};
+
+    \draw[-latex, thick, magenta] (-0.5,0.5,1.25) -- (-1.5,1.5,1.75) node[midway, above right] {$\scriptstyle \mathbf{v_2}$};
+    \draw[magenta,fill=magenta] (-0.5,0.5,1.25) circle (1pt) node[below] {$\scriptstyle P_2$};
+\end{tikzpicture}
+\end{document}
